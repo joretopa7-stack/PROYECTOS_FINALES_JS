@@ -1,6 +1,12 @@
 console.log("PROYECTO NOTAS");
 
-// arreglo de objetos con datos
+const readline = require("readline");
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
 const aprendices = [
     { nombre: "Ana", nota: 4.5, programa: "ADSO" },
     { nombre: "Luis", nota: 2.8, programa: "ADSO" },
@@ -9,78 +15,92 @@ const aprendices = [
     { nombre: "Sofía", nota: 5.0, programa: "Diseño Web" }
 ];
 
-console.log("MENU");
-console.log("1 Todos");
-console.log("2 Aprobados");
-console.log("3 Reprobados");
-console.log("4 Mayúsculas");
-console.log("5 Promedio");
-console.log("6 Ordenar");
-console.log("7 Clasificación");
-console.log("8 Todo");
+function menu(){
 
-// variable para probar opciones
-let opcion = 8;
+    console.log("\nMENU");
+    console.log("1 Todos");
+    console.log("2 Aprobados");
+    console.log("3 Reprobados");
+    console.log("4 Mayus");
+    console.log("5 Promedio");
+    console.log("6 Ordenar");
+    console.log("7 Clasificar");
+    console.log("8 Salir");
 
-switch(opcion){
+    rl.question("op: ", (op)=>{
 
-    case 1:
-        // muestra todo el arreglo
-        console.log(aprendices);
-    break;
+        op = parseInt(op);
 
-    case 2:
-        // filter sirve para filtrar datos (nota >= 3)
-        console.log(aprendices.filter(a => a.nota >= 3));
-    break;
+        switch(op){
 
-    case 3:
-        // filter para reprobados
-        console.log(aprendices.filter(a => a.nota < 3));
-    break;
+            case 1:
+                console.log(aprendices);
+            break;
 
-    case 4:
-        // map transforma datos (nombre a mayúscula)
-        console.log(aprendices.map(a => a.nombre.toUpperCase()));
-    break;
+            case 2:
+                // filter
+                console.log(aprendices.filter(a => a.nota >= 3));
+            break;
 
-    case 5:
-        // reduce suma todas las notas para sacar promedio
-        let prom = aprendices.reduce((acc,a)=> acc + a.nota,0) / aprendices.length;
-        console.log(prom);
-    break;
+            case 3:
+                console.log(aprendices.filter(a => a.nota < 3));
+            break;
 
-    case 6:
-        // sort ordena de menor a mayor
-        console.log([...aprendices].sort((a,b)=> a.nota - b.nota));
-    break;
+            case 4:
+                // map
+                console.log(aprendices.map(a => a.nombre.toUpperCase()));
+            break;
 
-    case 7:
-        // switch para clasificar notas
-        aprendices.forEach(a => {
-            if(a.nota >= 5) console.log(a.nombre + " Superior");
-            else if(a.nota >= 4) console.log(a.nombre + " Alto");
-            else if(a.nota >= 3) console.log(a.nombre + " Básico");
-            else console.log(a.nombre + " Bajo");
-        });
-    break;
+            case 5:
+                // reduce
+                let p = aprendices.reduce((a,b)=> a + b.nota,0) / aprendices.length;
+                console.log(p);
+            break;
 
-    case 8:
-        // todo junto (usa varios métodos)
-        console.log(aprendices);
+            case 6:
+                // sort mayor a menor
+                console.log([...aprendices].sort((a,b)=> b.nota - a.nota));
+            break;
 
-        console.log(aprendices.filter(a => a.nota >= 3));
+            case 7:
+                // switch clasificacion
+                aprendices.forEach(a => {
 
-        console.log(aprendices.filter(a => a.nota < 3));
+                    let t;
 
-        console.log(aprendices.map(a => a.nombre.toUpperCase()));
+                    if(a.nota < 3) t = "bajo";
+                    else if(a.nota == 3) t = "basico";
+                    else if(a.nota == 4) t = "alto";
+                    else if(a.nota == 5) t = "superior";
 
-        let p = aprendices.reduce((acc,a)=> acc + a.nota,0) / aprendices.length;
-        console.log(p);
+                    switch(t){
+                        case "bajo":
+                            console.log(a.nombre + " Bajo");
+                        break;
+                        case "basico":
+                            console.log(a.nombre + " Básico");
+                        break;
+                        case "alto":
+                            console.log(a.nombre + " Alto");
+                        break;
+                        case "superior":
+                            console.log(a.nombre + " Superior");
+                        break;
+                    }
+                });
+            break;
 
-        console.log([...aprendices].sort((a,b)=> a.nota - b.nota));
-    break;
+            case 8:
+                console.log("salir");
+                rl.close();
+                return;
 
-    default:
-        console.log("mal");
+            default:
+                console.log("mal");
+        }
+
+        menu(); // se repite (while)
+    });
 }
+
+menu();
