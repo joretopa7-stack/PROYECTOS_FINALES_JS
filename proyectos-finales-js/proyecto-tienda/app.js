@@ -1,6 +1,6 @@
 console.log("TIENDA");
 
-// readline para poder escribir en consola
+// para poder escribir en consola
 const readline = require("readline");
 
 const rl = readline.createInterface({
@@ -8,7 +8,7 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
-// arreglo de productos
+// datos de los productos
 const productos = [
  { id: 1, nombre: "Mouse", categoria: "Periférico", precio: 50000, stock: 10, ventas: 12 },
  { id: 2, nombre: "Teclado", categoria: "Periférico", precio: 120000, stock: 5, ventas: 7 },
@@ -20,21 +20,21 @@ const productos = [
 function menu(){
 
     console.log("\nMENU");
-    console.log("1 Ver todo");
-    console.log("2 Stock bajo");
-    console.log("3 Agotados");
-    console.log("4 Nombre y precio");
-    console.log("5 Inventario");
-    console.log("6 Ventas");
-    console.log("7 Ordenar");
-    console.log("8 Buscar");
-    console.log("9 Validar");
-    console.log("10 Precio");
-    console.log("11 Extras");
-    console.log("12 Reporte");
-    console.log("13 Salir");
+    console.log("1 ver");
+    console.log("2 stock bajo");
+    console.log("3 agotados");
+    console.log("4 nombre precio");
+    console.log("5 inventario");
+    console.log("6 ventas");
+    console.log("7 ordenar");
+    console.log("8 buscar");
+    console.log("9 validar");
+    console.log("10 precio");
+    console.log("11 extras");
+    console.log("12 reporte");
+    console.log("13 salir");
 
-    rl.question("Opcion: ", (op)=>{
+    rl.question("op: ", (op)=>{
 
         op = parseInt(op);
 
@@ -46,40 +46,40 @@ function menu(){
             break;
 
             case 2:
-                // filter para stock bajo
+                // filter: filtra los que tienen poco stock
                 console.log(productos.filter(p => p.stock < 5));
             break;
 
             case 3:
-                // filter para agotados
+                // filter: muestra los que ya no tienen stock
                 console.log(productos.filter(p => p.stock == 0));
             break;
 
             case 4:
-                // map para mostrar nombre y precio
+                // map: transforma los datos a texto
                 console.log(productos.map(p => p.nombre + " $" + p.precio));
             break;
 
             case 5:
-                // reduce para calcular inventario (precio * stock)
+                // reduce: suma el valor total del inventario
                 let inv = productos.reduce((a,p)=> a + (p.precio * p.stock),0);
                 console.log(inv);
             break;
 
             case 6:
-                // reduce suma ventas
-                let ven = productos.reduce((a,p)=> a + p.ventas,0);
-                console.log(ven);
+                // reduce: suma todas las ventas
+                let v = productos.reduce((a,p)=> a + p.ventas,0);
+                console.log(v);
             break;
 
             case 7:
-                // sort para ordenar
+                // sort: ordena por precio y por ventas
                 console.log([...productos].sort((a,b)=> a.precio - b.precio));
                 console.log([...productos].sort((a,b)=> b.ventas - a.ventas));
             break;
 
             case 8:
-                // find busca un producto
+                // find: busca un producto por nombre
                 rl.question("nombre: ", (n)=>{
                     let b = productos.find(p => p.nombre.toLowerCase() == n.toLowerCase());
                     console.log(b ? b : "no esta");
@@ -88,14 +88,15 @@ function menu(){
                 return;
 
             case 9:
-                // some verifica si hay al menos uno
+                // some: revisa si hay al menos uno agotado
                 console.log(productos.some(p => p.stock == 0));
-                // every verifica si todos cumplen
+
+                // every: revisa si todos tienen stock
                 console.log(productos.every(p => p.stock > 0));
             break;
 
             case 10:
-                // clasificación simple de precio
+                // clasifica el precio
                 rl.question("precio: ", (pr)=>{
                     pr = parseInt(pr);
 
@@ -120,7 +121,7 @@ function menu(){
                 let t = productos.reduce((a,p)=> a + (p.precio * p.stock),0);
                 console.log(t);
 
-                // sort para obtener el primero
+                // sort para sacar el primero
                 console.log([...productos].sort((a,b)=> b.ventas - a.ventas)[0]);
                 console.log([...productos].sort((a,b)=> b.precio - a.precio)[0]);
             break;
@@ -128,19 +129,21 @@ function menu(){
             case 12:
                 // reporte final
 
-                let op1 = [...productos].sort((a,b)=> a.precio - b.precio);
-                let op2 = [...productos].sort((a,b)=> b.ventas - a.ventas);
+                let p1 = [...productos].sort((a,b)=> a.precio - b.precio);
+                let p2 = [...productos].sort((a,b)=> b.ventas - a.ventas);
 
-                console.log(op1[op1.length - 1]); // más caro
-                console.log(op1[0]); // más barato
-                console.log(op2[0]); // más vendido
+                // más caro, más barato, más vendido
+                console.log(p1[p1.length - 1]);
+                console.log(p1[0]);
+                console.log(p2[0]);
 
+                // cálculos generales
                 let i = productos.reduce((a,p)=> a + (p.precio * p.stock),0);
-                let v = productos.reduce((a,p)=> a + p.ventas,0);
+                let vt = productos.reduce((a,p)=> a + p.ventas,0);
                 let ag = productos.filter(p=> p.stock == 0).length;
 
                 console.log(i);
-                console.log(v);
+                console.log(vt);
                 console.log(ag);
             break;
 
@@ -150,10 +153,10 @@ function menu(){
                 return;
 
             default:
-                console.log("mal");
+                console.log("No valido");
         }
 
-        menu(); // se repite (como while)
+        menu(); // vuelve a mostrar el menú (como un while)
     });
 }
 
