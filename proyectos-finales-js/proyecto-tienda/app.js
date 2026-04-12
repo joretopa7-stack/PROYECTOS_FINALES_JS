@@ -122,15 +122,15 @@ function menu(){
                 console.log(t);
 
                 // sort para sacar el primero
-                console.log([...productos].sort((a,b)=> b.ventas - a.ventas)[0]);
-                console.log([...productos].sort((a,b)=> b.precio - a.precio)[0]);
+                console.log([productos].sort((a,b)=> b.ventas - a.ventas)[0]);
+                console.log([productos].sort((a,b)=> b.precio - a.precio)[0]);
             break;
 
             case 12:
                 // reporte final
 
-                let p1 = [...productos].sort((a,b)=> a.precio - b.precio);
-                let p2 = [...productos].sort((a,b)=> b.ventas - a.ventas);
+                let p1 = [productos].sort((a,b)=> a.precio - b.precio);
+                let p2 = [productos].sort((a,b)=> b.ventas - a.ventas);
 
                 // más caro, más barato, más vendido
                 console.log(p1[p1.length - 1]);
